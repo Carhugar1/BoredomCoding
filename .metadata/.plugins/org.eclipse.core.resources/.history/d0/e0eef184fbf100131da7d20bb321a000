@@ -1,0 +1,15 @@
+package Data_Base;
+
+public class Animal {
+
+	public String name;
+	
+	public String[] ids;
+	
+	
+	
+	
+	
+	
+	
+}
