@@ -114,10 +114,11 @@ public class MainSwing {
 						projectComboBox.removeItemAt(index);
 						projectComboBox.addItem(newProject);
 						projectComboBox.addItem("New...");
+						projectComboBox.setSelectedIndex(index);
 					}
 				}	
-				else 
-					project = projects.get(index);
+				
+				project = projects.get(index);
 			}
 		});
 		
@@ -136,6 +137,7 @@ public class MainSwing {
 				else {
 					clock.clockOut();
 					values.put(project, values.get(project) + clock.timeUsed("minutes"));
+					clockButton.setText("Clock In");
 				}
 			}
 		});
@@ -145,7 +147,7 @@ public class MainSwing {
 		editButton.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
-				values.put(project, (Integer) JOptionPane.showInputDialog(
+				Object r = JOptionPane.showInputDialog(
 						main,
 						"Change " + project + "'s time to?",
 						"Edit", 
@@ -153,13 +155,38 @@ public class MainSwing {
 						null, 
 						null, 
 						values.get(project)
-						));
+						);
+				
+				if (r != null) {
+					values.put(project, Integer.decode((String) r));
 				}
+			}
+		});
+		
+		// Remove button for mistyping with a JoptionPane for confirmation
+		JButton removeButton = new JButton("Remove");
+		removeButton.addActionListener(new ActionListener() {
+
+			
+			public void actionPerformed(ActionEvent e) {
+				if (JOptionPane.showConfirmDialog(
+						main, 
+						"Are you sure you want to remove the " + project + " project?", 
+						"Remove", 
+						JOptionPane.YES_NO_OPTION
+						) == JOptionPane.YES_OPTION) {
+					
+					projects.remove(project);
+					projectComboBox.removeItem(project);
+					values.remove(project);
+				}
+			}
 		});
 		
 		main.add(projectComboBox);
 		main.add(clockButton);
 		main.add(editButton);
+		main.add(removeButton);
 		return main;
 	}
 
