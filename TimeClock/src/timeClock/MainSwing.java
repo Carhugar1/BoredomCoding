@@ -1,6 +1,5 @@
 package timeClock;
 
-import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
 import java.io.PrintWriter;
@@ -14,8 +13,6 @@ import javax.swing.*;
 
 
 public class MainSwing {
-
-	static File in = new File("Time.txt");
 	
 	static String project = "";
 	
@@ -26,7 +23,7 @@ public class MainSwing {
 	
 	public static void main(String[] args) {
 		
-		
+		final File in = new File("Time.txt");
 		
 		/**
 		 * Checks if the file exists, and if it doesn't creates a new file with the specified name
@@ -65,15 +62,23 @@ public class MainSwing {
 			values.put(key, value);
 		}
 		
+		input.close();
+		
 		/**
 		 * Here is the beginning of the new JSwing elements
 		 */
 		JFrame frame = new JFrame("TimeClock");
-		frame.setDefaultCloseOperation(save());
-		frame.setLocationRelativeTo(null);
 		frame.add(TimePanel());
 		frame.pack();
+		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
+		
+		frame.addWindowListener(new WindowAdapter(){
+            public void windowClosing(WindowEvent e){ // close then leave
+            	save(in);
+                System.exit(0);
+            }
+        });
 		
 	}
 		
@@ -194,7 +199,7 @@ public class MainSwing {
 	 * My Save Method
 	 * @return JFrame.EXIT_ON_CLOSE after saving to the file.
 	 */
-	private static int save() {
+	private static void save(File in) {
 		PrintWriter out;
 		
 		try {
@@ -208,11 +213,11 @@ public class MainSwing {
 			}
 			
 			out.close();
+			
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
 		
-		return JFrame.EXIT_ON_CLOSE;
 	}
 
 	
