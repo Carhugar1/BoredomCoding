@@ -1,5 +1,6 @@
 package timeClock;
 
+import java.awt.Component;
 import java.awt.event.*;
 import java.io.File;
 import java.io.PrintWriter;
@@ -196,8 +197,7 @@ public class MainSwing {
 	}
 
 	/**
-	 * My Save Method
-	 * @return JFrame.EXIT_ON_CLOSE after saving to the file.
+	 * My Save Method.
 	 */
 	private static void save(File in) {
 		PrintWriter out;
